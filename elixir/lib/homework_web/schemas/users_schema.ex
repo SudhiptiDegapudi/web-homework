@@ -41,5 +41,11 @@ defmodule HomeworkWeb.Schemas.UsersSchema do
 
       resolve(&UsersResolver.delete_user/3)
     end
+
+    @desc "Search User By last name or first name"
+    field :search_user_by_name, list_of(:user) do
+      arg(:name, non_null(:string))
+      resolve(&UsersResolver.search_user_by_name/3)
+    end
   end
 end

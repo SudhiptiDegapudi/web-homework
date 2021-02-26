@@ -101,4 +101,32 @@ defmodule Homework.Transactions do
   def change_transaction(%Transaction{} = transaction, attrs \\ %{}) do
     Transaction.changeset(transaction, attrs)
   end
+
+  def get_transactions_in_range!(min, max) do
+    from(
+      trans in Transaction,
+      where: fragment("? BETWEEN ? AND ? ", trans.amount, ^min, ^max),
+      order_by: fragment("? DESC", trans.inserted_at)
+    )
+    |> Repo.all()
+  end
+
+  def get_transactions_with_pagination!(min, max, limit, page, total_results, skip) do
+    count = total_results-skip
+    sub_query = from trans in Transaction,
+                order_by: [desc: trans.inserted_at],
+                where: trans.amount >= ^min and trans.amount <= ^max,
+                limit: ^count,
+                select: trans
+    query = from trans in subquery(sub_query),limit: ^limit, offset: (^page - 1) * ^limit, select: trans
+    Repo.all(query)
+  end
+
+  def calculate_total_transactions!(min, max) do
+    from(
+      trans in Transaction,
+      where: fragment("? BETWEEN ? AND ? ", trans.amount, ^min, ^max)
+    )
+    |> Repo.aggregate( :count, :id)
+  end
 end

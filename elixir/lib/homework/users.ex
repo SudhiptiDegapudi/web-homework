@@ -101,4 +101,15 @@ defmodule Homework.Users do
   def change_user(%User{} = user, attrs \\ %{}) do
     User.changeset(user, attrs)
   end
+
+  def search_user_by_name!(name) do
+    start_character = String.slice(name, 0..1)
+    from(
+      p in User,
+      where: ilike(p.first_name, ^"#{start_character}%") or ilike(p.last_name, ^"#{start_character}%"),
+      where: fragment("SIMILARITY(?, ?) > 0 or SIMILARITY(?, ?) > 0 ",  p.last_name, ^name, p.first_name, ^name),
+      order_by: fragment("LEAST(LEVENSHTEIN(?, ?) ,LEVENSHTEIN(?, ?))", p.last_name, ^name,  p.first_name, ^name)
+    )
+    |> Repo.all()
+  end
 end

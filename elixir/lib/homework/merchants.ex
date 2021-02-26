@@ -101,4 +101,17 @@ defmodule Homework.Merchants do
   def change_merchant(%Merchant{} = merchant, attrs \\ %{}) do
     Merchant.changeset(merchant, attrs)
   end
+
+
+## assignment
+  def search_by_name!(name) do
+    start_character = String.slice(name, 0..1)
+    from(
+      p in Merchant,
+      where: ilike(p.name, ^"#{start_character}%"),
+      where: fragment("SIMILARITY(?, ?) > 0",  p.name, ^name),
+      order_by: fragment("LEVENSHTEIN(?, ?)", p.name, ^name)
+    )
+    |> Repo.all()
+  end
 end

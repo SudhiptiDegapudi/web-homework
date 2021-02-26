@@ -11,12 +11,49 @@ defmodule Homework.MerchantsTest do
       description: "some updated description",
       name: "some updated name"
     }
+
+    @search_attrs1 %{description: "some description", name: "Chocolate Factory"}
+    @search_attrs2 %{description: "some description", name: "Lehi Traders"}
+    @search_attrs3 %{description: "some description", name: "Lehi Bakers"}
+
+    @update_attrs %{
+      description: "some updated description",
+      name: "some updated name"
+    }
+
     @invalid_attrs %{description: nil, name: nil}
 
     def merchant_fixture(attrs \\ %{}) do
       {:ok, merchant} =
         attrs
         |> Enum.into(@valid_attrs)
+        |> Merchants.create_merchant()
+
+      merchant
+    end
+
+    def merchant_search_fixture1(attrs \\ %{}) do
+      {:ok, merchant} =
+        attrs
+        |> Enum.into(@search_attrs1)
+        |> Merchants.create_merchant()
+
+      merchant
+    end
+
+    def merchant_search_fixture2(attrs \\ %{}) do
+      {:ok, merchant} =
+        attrs
+        |> Enum.into(@search_attrs2)
+        |> Merchants.create_merchant()
+
+      merchant
+    end
+
+    def merchant_search_fixture3(attrs \\ %{}) do
+      {:ok, merchant} =
+        attrs
+        |> Enum.into(@search_attrs3)
         |> Merchants.create_merchant()
 
       merchant
@@ -64,6 +101,18 @@ defmodule Homework.MerchantsTest do
     test "change_merchant/1 returns a merchant changeset" do
       merchant = merchant_fixture()
       assert %Ecto.Changeset{} = Merchants.change_merchant(merchant)
+    end
+
+    test "searchByName/1 returns all merchants matching a string" do
+      # created merchant with search fixture 1 and 2
+      merchant1 = merchant_search_fixture1()
+      assert Merchants.list_merchants([]) == [merchant1]
+      name = "Cho"
+      assert Merchants.search_by_name!(name) == [merchant1]
+      merchant_search_fixture2()
+      merchant_search_fixture3()
+      name = "Lehi"
+      assert length(Merchants.search_by_name!(name)) == 2
     end
   end
 end

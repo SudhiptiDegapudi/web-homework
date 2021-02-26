@@ -47,7 +47,16 @@ defmodule HomeworkWeb.Resolvers.MerchantsResolver do
         {:ok, merchant}
 
       error ->
-        {:error, "could not update merchant: #{inspect(error)}"}
+        {:error, "could not delete merchant: #{inspect(error)}"}
     end
   end
+
+
+  @doc """
+  Search a merchant with args specified.
+  """
+  def search_by_name(_root, %{name: name}, _info) do
+    {:ok, Merchants.search_by_name!(name)}
+  end
+
 end

@@ -7,6 +7,8 @@ defmodule Homework.UsersTest do
     alias Homework.Users.User
 
     @valid_attrs %{dob: "some dob", first_name: "some first_name", last_name: "some last_name"}
+    @search_attrs1 %{dob: "some dob", first_name: "john", last_name: "smith"}
+    @search_attrs2 %{dob: "some dob", first_name: "smith", last_name: "charlie"}
     @update_attrs %{
       dob: "some updated dob",
       first_name: "some updated first_name",
@@ -19,7 +21,22 @@ defmodule Homework.UsersTest do
         attrs
         |> Enum.into(@valid_attrs)
         |> Users.create_user()
+      user
+    end
 
+    def user_search_fixture1(attrs \\ %{}) do
+      {:ok, user} =
+        attrs
+        |> Enum.into(@search_attrs1)
+        |> Users.create_user()
+      user
+    end
+
+    def user_search_fixture2(attrs \\ %{}) do
+      {:ok, user} =
+        attrs
+        |> Enum.into(@search_attrs2)
+        |> Users.create_user()
       user
     end
 
@@ -67,6 +84,21 @@ defmodule Homework.UsersTest do
     test "change_user/1 returns a user changeset" do
       user = user_fixture()
       assert %Ecto.Changeset{} = Users.change_user(user)
+    end
+
+    test "search_user_by_name/1 returns all users matching a string" do
+      # created user with search fixture 1 and 2
+      user1 = user_search_fixture1()
+      assert Users.list_users([]) == [user1]
+      name = "j"
+      assert Users.search_user_by_name!(name) == [user1]
+      name = "joh"
+      assert Users.search_user_by_name!(name) == [user1]
+      user2 = user_search_fixture2()
+      name = "sm"
+      user_list = Users.search_user_by_name!(name)
+      assert Users.search_user_by_name!(name) == [user1, user2]
+      assert length(user_list) == 2
     end
   end
 end

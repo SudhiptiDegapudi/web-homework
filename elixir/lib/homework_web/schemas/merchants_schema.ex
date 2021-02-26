@@ -38,5 +38,12 @@ defmodule HomeworkWeb.Schemas.MerchantsSchema do
 
       resolve(&MerchantsResolver.delete_merchant/3)
     end
+
+    @desc "Search Merchant By name"
+    field :search_by_name, list_of(:merchant) do
+      arg(:name, non_null(:string))
+      resolve(&MerchantsResolver.search_by_name/3)
+    end
+
   end
 end

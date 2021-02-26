@@ -50,4 +50,12 @@ defmodule HomeworkWeb.Resolvers.UsersResolver do
         {:error, "could not update user: #{inspect(error)}"}
     end
   end
+
+
+  @doc """
+  Search a user with args specified.
+  """
+  def search_user_by_name(_root, %{name: name}, _info) do
+    {:ok, Users.search_user_by_name!(name)}
+  end
 end
