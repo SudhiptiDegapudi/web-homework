@@ -105,7 +105,7 @@ defmodule Homework.Resolvers.CompaniesResolverTest do
           id: "2f005f74-52dd-4c27-b8b1-619504d11d93"
         }
 
-        assert_raise KeyError, fn ->
+        assert_raise Ecto.NoResultsError, fn ->
           CompaniesResolver.update_company(nil, args, nil)
         end
 
