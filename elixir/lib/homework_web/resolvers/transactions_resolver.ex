@@ -65,6 +65,8 @@ defmodule HomeworkWeb.Resolvers.TransactionsResolver do
     transaction = Transactions.get_transaction!(id)
     company = Companies.get_company!(transaction.company_id)
     args = %{args | amount: trunc(args.amount*100)}
+    IO.inspect args.amount
+    IO.inspect transaction.amount
     diff_amount = args.amount-transaction.amount
     if diff_amount>0 && diff_amount > company.available_credit do
       {:error, "No credit available to make this transaction"}
@@ -115,11 +117,12 @@ defmodule HomeworkWeb.Resolvers.TransactionsResolver do
     min = trunc(min*100)
     max = trunc(max*100)
     total_results = Transactions.calculate_total_transactions!(min, max)
+    count_after_skipped = total_results - skip
     ## Find the right page number
-    page_no = Pagination.find_page_no( page, total_results, limit)
-    transactions = Transactions.get_transactions_with_pagination!(min, max, limit, page_no, total_results, skip)
+    page_no = Pagination.find_page_no( page, count_after_skipped, limit)
+    transactions = Transactions.get_transactions_with_pagination!(min, max, limit, page_no, count_after_skipped)
     transactions = Enum.map(transactions, fn trans-> %{trans | amount: trans.amount/100} end)
-    result = %{total_results: total_results, list: transactions}
+    result = %{total_results: count_after_skipped, list: transactions}
     {:ok, result}
   end
 

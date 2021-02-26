@@ -1,9 +1,6 @@
 defmodule Homework.Companies.Company do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Homework.Merchants.Merchant
-  alias Homework.Users.User
-  alias Homework.Companies.Company
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "companies" do

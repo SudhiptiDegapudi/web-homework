@@ -55,8 +55,8 @@ defmodule HomeworkWeb.Resolvers.MerchantsResolver do
   @doc """
   Search a merchant with args specified.
   """
-  def search_by_name(_root, %{name: name}, _info) do
-    {:ok, Merchants.search_by_name!(name)}
+  def search_merchant_by_name(_root, %{name: name}, _info) do
+    {:ok, Merchants.search_merchant_by_name!(name)}
   end
 
 end

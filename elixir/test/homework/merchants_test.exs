@@ -103,16 +103,16 @@ defmodule Homework.MerchantsTest do
       assert %Ecto.Changeset{} = Merchants.change_merchant(merchant)
     end
 
-    test "searchByName/1 returns all merchants matching a string" do
+    test "search_merchant_by_name/1 returns all merchants matching a string" do
       # created merchant with search fixture 1 and 2
       merchant1 = merchant_search_fixture1()
       assert Merchants.list_merchants([]) == [merchant1]
       name = "Cho"
-      assert Merchants.search_by_name!(name) == [merchant1]
+      assert Merchants.search_merchant_by_name!(name) == [merchant1]
       merchant_search_fixture2()
       merchant_search_fixture3()
       name = "Lehi"
-      assert length(Merchants.search_by_name!(name)) == 2
+      assert length(Merchants.search_merchant_by_name!(name)) == 2
     end
   end
 end

@@ -16,8 +16,9 @@ Homework.Repo.insert!(%Homework.Users.User{dob: "08/07/1980", last_name: "Jake",
 Homework.Repo.insert!(%Homework.Users.User{dob: "08/07/1990", last_name: "Brent", first_name: "Everman"})
 
 
-Homework.Repo.insert!(%Homework.Merchants.Merchant{name: "chocolate", description: "Merchant description 1"})
+Homework.Repo.insert!(%Homework.Merchants.Merchant{name: "chocolate house", description: "Merchant description 1"})
 Homework.Repo.insert!(%Homework.Merchants.Merchant{name: "traders", description: "Merchant description 2"})
+Homework.Repo.insert!(%Homework.Merchants.Merchant{name: "chocolate fantasy", description: "Merchant description 3"})
 
 ## credit_line & available_credit are in cents
 Homework.Repo.insert!(%Homework.Companies.Company{name: "Lehi chocolate factory", credit_line: 50000, available_credit: 50000})

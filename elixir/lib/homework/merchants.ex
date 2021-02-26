@@ -104,7 +104,7 @@ defmodule Homework.Merchants do
 
 
 ## assignment
-  def search_by_name!(name) do
+  def search_merchant_by_name!(name) do
     start_character = String.slice(name, 0..1)
     from(
       p in Merchant,

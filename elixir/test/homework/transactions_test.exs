@@ -241,18 +241,18 @@ defmodule Homework.TransactionsTest do
 
 
       # Total 4 transactions, limit 2 and skip 1 . so 1st page should have 2 , 2nd page should have 1
-      assert length(Transactions.get_transactions_with_pagination!(min1, max1, limit, page, total, skip)) == 2
+      assert length(Transactions.get_transactions_with_pagination!(min1, max1, limit, page, total-skip)) == 2
       page=2
-      assert length(Transactions.get_transactions_with_pagination!(min1, max1, limit, page, total, skip)) == 1
+      assert length(Transactions.get_transactions_with_pagination!(min1, max1, limit, page, total-skip)) == 1
       page=3
-      assert length(Transactions.get_transactions_with_pagination!(min1, max1, limit, page, total, skip)) == 0
+      assert length(Transactions.get_transactions_with_pagination!(min1, max1, limit, page, total-skip)) == 0
 
       # Total 4 transactions, limit set to total no. of transactions and skip 1 . so 1st page should have 3 , 2nd page should have 0
       limit=total
       page=1
-      assert length(Transactions.get_transactions_with_pagination!(min1, max1, limit, page, total, skip))== 3
+      assert length(Transactions.get_transactions_with_pagination!(min1, max1, limit, page, total-skip))== 3
       page=2
-      assert length(Transactions.get_transactions_with_pagination!(min1, max1, limit, page, total, skip))== 0
+      assert length(Transactions.get_transactions_with_pagination!(min1, max1, limit, page, total-skip))== 0
     end
   end
 end

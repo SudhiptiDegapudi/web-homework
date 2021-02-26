@@ -9,9 +9,10 @@ defmodule HomeworkWeb.Schemas.CompaniesSchema do
   object :company do
     field(:id, non_null(:id))
     field(:name, non_null(:string))
+    @desc "creditLine is in cents"
     field(:credit_line, :integer)
-    @desc "available_credit is in dollars"
-    field(:available_credit, :float)
+    @desc "availableCredit is in cents"
+    field(:available_credit, :integer)
     field(:inserted_at, :naive_datetime)
     field(:updated_at, :naive_datetime)
   end
@@ -20,9 +21,10 @@ defmodule HomeworkWeb.Schemas.CompaniesSchema do
     @desc "Create a new company"
     field :create_company, :company do
       arg(:name, non_null(:string))
-      @desc "credit_line is in cents"
+      @desc "creditLine is in cents"
       arg(:credit_line, non_null(:integer))
-      arg(:available_credit, non_null(:float))
+      @desc "availableCredit is in cents"
+      arg(:available_credit, non_null(:integer))
 
       resolve(&CompaniesResolver.create_company/3)
     end
@@ -31,9 +33,10 @@ defmodule HomeworkWeb.Schemas.CompaniesSchema do
     field :update_company, :company do
       arg(:id, non_null(:id))
       arg(:name, :string)
-      @desc "credit_line is in cents"
+      @desc "creditLine is in cents"
       arg(:credit_line, :integer)
-      arg(:available_credit, :float)
+      @desc "availableCredit is in cents"
+      arg(:available_credit, :integer)
 
       resolve(&CompaniesResolver.update_company/3)
     end

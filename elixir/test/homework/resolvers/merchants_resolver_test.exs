@@ -115,10 +115,10 @@ defmodule Homework.Resolvers.MerchantsResolverTest do
          end
     end
 
-    test "search_by_name/3 returns error with different attributes" do
+    test "search_merchant_by_name/3 returns error with different attributes" do
       {:ok, merchant}  = Merchants.create_merchant(%{description: "some description", name: "Chocolate Factory"})
       # New Merchant is created
-      {:ok, merchants} = MerchantsResolver.search_by_name(nil, %{name: "Chocolate Factory"}, nil)
+      {:ok, merchants} = MerchantsResolver.search_merchant_by_name(nil, %{name: "Chocolate Factory"}, nil)
       assert length(merchants) == 1
       assert merchants == [merchant]
     end

@@ -40,9 +40,9 @@ defmodule HomeworkWeb.Schemas.MerchantsSchema do
     end
 
     @desc "Search Merchant By name"
-    field :search_by_name, list_of(:merchant) do
+    field :search_merchant_by_name, list_of(:merchant) do
       arg(:name, non_null(:string))
-      resolve(&MerchantsResolver.search_by_name/3)
+      resolve(&MerchantsResolver.search_merchant_by_name/3)
     end
 
   end

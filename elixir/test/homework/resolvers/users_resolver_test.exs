@@ -120,7 +120,7 @@ defmodule Homework.Resolvers.UsersResolverTest do
          end
     end
 
-    test "search_by_name/3 returns error with different attributes" do
+    test "search_merchant_by_name/3 returns error with different attributes" do
       {:ok, user1}  = Users.create_user(%{
           first_name: "John",
           last_name: "smith",

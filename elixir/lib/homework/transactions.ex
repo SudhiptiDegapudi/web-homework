@@ -102,6 +102,19 @@ defmodule Homework.Transactions do
     Transaction.changeset(transaction, attrs)
   end
 
+  @doc """
+  Gets transactions with in range
+
+  ## Examples
+
+      iex> get_transactions_in_range(%{min: value, max: value})
+      [%Transaction{}, ...]
+
+      iex> get_transactions_in_range(%{min: bad_value, max: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+
   def get_transactions_in_range!(min, max) do
     from(
       trans in Transaction,
@@ -111,12 +124,24 @@ defmodule Homework.Transactions do
     |> Repo.all()
   end
 
-  def get_transactions_with_pagination!(min, max, limit, page, total_results, skip) do
-    count = total_results-skip
+  @doc """
+  Gets transactions with in range
+
+  ## Examples
+
+      iex> get_transactions_with_pagination(%{min: value, max: value, limit: limit, total_results})
+      [%Transaction{}, ...]
+
+      iex> get_transactions_in_range(%{min: bad_value, max: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+
+  def get_transactions_with_pagination!(min, max, limit, page, count_after_skipped) do
     sub_query = from trans in Transaction,
                 order_by: [desc: trans.inserted_at],
                 where: trans.amount >= ^min and trans.amount <= ^max,
-                limit: ^count,
+                limit: ^count_after_skipped,
                 select: trans
     query = from trans in subquery(sub_query),limit: ^limit, offset: (^page - 1) * ^limit, select: trans
     Repo.all(query)
