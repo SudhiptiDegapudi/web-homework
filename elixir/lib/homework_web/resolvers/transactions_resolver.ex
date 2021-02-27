@@ -65,8 +65,6 @@ defmodule HomeworkWeb.Resolvers.TransactionsResolver do
     transaction = Transactions.get_transaction!(id)
     company = Companies.get_company!(transaction.company_id)
     args = %{args | amount: trunc(args.amount*100)}
-    IO.inspect args.amount
-    IO.inspect transaction.amount
     diff_amount = args.amount-transaction.amount
     if diff_amount>0 && diff_amount > company.available_credit do
       {:error, "No credit available to make this transaction"}
